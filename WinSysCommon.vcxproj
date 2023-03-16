@@ -159,10 +159,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommonAPI.h" />
+    <ClInclude Include="ErrorCtrl.h" />
+    <ClInclude Include="FileCtrl.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="StrCtrl.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CommonAPI.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="ErrorCtrl.cpp" />
+    <ClCompile Include="FileCtrl.cpp" />
+    <ClCompile Include="StrCtrl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WinSysCommon.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
