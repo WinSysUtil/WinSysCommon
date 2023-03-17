@@ -86,3 +86,19 @@ BOOL CSysCtrl::GetSystemTime(std::string& strTime)
 
 	return ret;
 }
+
+BOOL CSysCtrl::IsProcessElevated()
+{
+	BOOL isAdmin;
+	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+	PSID AdministratorsGroup;
+	BOOL Result = AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
+		DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &AdministratorsGroup);
+	if (Result) {
+		if (!CheckTokenMembership(NULL, AdministratorsGroup, &isAdmin)) {
+			isAdmin = false;
+		}
+		FreeSid(AdministratorsGroup);
+	}
+	return isAdmin;
+}

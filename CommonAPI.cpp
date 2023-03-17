@@ -101,6 +101,12 @@ BOOL SysCtrl_API::GetSystemTimeEx(char* pBuf, int nBufSize)
 	return ret;
 }
 
+BOOL SysCtrl_API::IsProcessElevated()
+{
+	return SysCtrl.IsProcessElevated();
+
+}
+
 
 // =============================================================================================== //
 // String Control API

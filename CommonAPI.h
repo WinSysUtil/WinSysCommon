@@ -42,7 +42,6 @@ extern "C" {
 		WINSYSCOMMON_API BOOL RemoveFIle(char* strPath);
 		WINSYSCOMMON_API BOOL CopyFile(char* strSrc, char* strDst);
 		WINSYSCOMMON_API BOOL GetFiles(char* strSrc, std::vector<std::string>* files);
-		
 
 	}
 	
@@ -56,7 +55,8 @@ extern "C" {
 
 		WINSYSCOMMON_API BOOL GetEnviroment(char * key, char * pBuf, int nBufSize);
 		WINSYSCOMMON_API BOOL SetEnviroment(char * key, char *value);
-		WINSYSCOMMON_API BOOL GetSystemTimeEx(char * pBuf, int nBufSize);
+		WINSYSCOMMON_API BOOL GetSystemTimeEx(char* pBuf, int nBufSize);
+		WINSYSCOMMON_API BOOL IsProcessElevated();
 
 	}
 

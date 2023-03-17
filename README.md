@@ -14,6 +14,12 @@ Windows 운영체제에서 파일 및 시스템 정보를 관리하기 위한 AP
 
 
 ## API 상세설명
+
+### RegCtrl_API
+
+- `GetRegistry` : 레지스트리 값을 가져옵니다.
+- `SetRegistry` : 레지스트리 값을 설정합니다.
+
 ### File Control API (FileCtrl_API)
 
 - `CreateDirectory` : 디렉토리를 생성합니다.
@@ -35,6 +41,7 @@ Windows 운영체제에서 파일 및 시스템 정보를 관리하기 위한 AP
 - `IsProcessRunning` : 프로세스가 실행 중인지 확인합니다.
 - `SetProcessPriority` : 프로세스 우선순위를 설정합니다.
 - `MonitorProcessResources` : 프로세스의 자원 사용량을 모니터링합니다.
+- `IsProcessElevated` : 현재 프로세스가 관리자 권한을 갖는지 확인합니다.
 
 ### String Control API (StrCtrl_API)
 
