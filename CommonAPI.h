@@ -4,6 +4,7 @@
 #include "FileCtrl.h"
 #include "SysCtrl.h"
 #include "ProcCtrl.h"
+#include "RegCtrl.h"
 
 #if WINSYSCOMMON_EXPORTS
 #define WINSYSCOMMON_API _declspec(dllexport) 
@@ -14,6 +15,17 @@
 #if __cplusplus
 extern "C" {
 #endif
+	/**
+	 * 레지스트리를 관리하는 API.
+	 */
+	namespace RegCtrl_API {
+		typedef bool(*fp_GetRegistory)(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* pBuf, int pBufMaxLength);
+		typedef bool(*fp_SetRegistory)(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* data);
+
+		WINSYSCOMMON_API bool GetRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* pBuf, int pBufMaxLength);
+		WINSYSCOMMON_API bool SetRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* data);
+	}
+
 	/**
 	 * 파일 삭제, 복사, 유무를 관리하는 API.
 	 */

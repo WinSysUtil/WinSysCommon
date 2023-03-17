@@ -1,6 +1,30 @@
 ﻿#include "CommonAPI.h"
 
 // =============================================================================================== //
+// Registry Control API
+// =============================================================================================== //
+
+bool RegCtrl_API::GetRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* pBuf, int pBufMaxLength)
+{
+	std::wstring wstrData;
+	bool ret = FALSE;
+	if (true == RegCtrl.GetRegistry(hKey, subKey, valueName, wstrData))
+	{
+		if (0 == wcsncpy_s(pBuf, pBufMaxLength, wstrData.c_str(), wstrData.length()))
+		{
+			ret = TRUE;
+		}
+	}
+
+	return ret;
+}
+
+bool RegCtrl_API::SetRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* data)
+{
+	return RegCtrl.SetRegistry(hKey, subKey, valueName, data);
+}
+
+// =============================================================================================== //
 // File Control API
 // =============================================================================================== //
 
