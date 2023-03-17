@@ -3,6 +3,7 @@
 #pragma hdrstop
 #include "FileCtrl.h"
 #include "SysCtrl.h"
+#include "ProcCtrl.h"
 
 #if WINSYSCOMMON_EXPORTS
 #define WINSYSCOMMON_API _declspec(dllexport) 
@@ -46,6 +47,23 @@ extern "C" {
 	}
 
 	/**
+	 * 프로세스를 관리하는 API.
+	 */
+	namespace ProcCtrl_API {
+		typedef bool(*fp_StartProcess)(char*);
+		typedef bool(*fp_StopProcess)(char*);
+		typedef bool(*fp_IsProcessRunning)(char*);
+		typedef bool(*fp_SetProcessPriority)(char*, DWORD);
+		typedef bool(*fp_MonitorProcessResources)(char*, PROCESS_RESOURCE_USAGE *);
+
+		WINSYSCOMMON_API bool StartProcess(char* szPath);
+		WINSYSCOMMON_API bool StopProcess(char* szProcessName);
+		WINSYSCOMMON_API bool IsProcessRunning(char* szProcessName);
+		WINSYSCOMMON_API bool SetProcessPriority(char* szProcName, DWORD dwPriority);
+		WINSYSCOMMON_API bool MonitorProcessResources(char * szProcName, PROCESS_RESOURCE_USAGE * usage);
+	}
+
+	/**
 	 * 문자열 변환을 관리하는 API.
 	 */
 	namespace StrCtrl_API {
@@ -56,6 +74,9 @@ extern "C" {
 		WINSYSCOMMON_API BOOL WideStringToAnsiString(wchar_t* pSrcBuf, int nSrcBufSize, char* pDstBuf, int pDstBufMaxSize);
 
 	}
+
 #if __cplusplus
 }
 #endif
+
+

@@ -1,5 +1,9 @@
 ﻿#include "CommonAPI.h"
 
+// =============================================================================================== //
+// File Control API
+// =============================================================================================== //
+
 BOOL FileCtrl_API::CreateDirectory(char* strPath)
 {
 	return FileCtrl.CreateDirectory(strPath);
@@ -24,6 +28,10 @@ BOOL FileCtrl_API::GetFiles(char* strSrc, std::vector<std::string>* files)
 {
 	return FileCtrl.GetFiles(strSrc, files);
 }
+
+// =============================================================================================== //
+// System Control API
+// =============================================================================================== //
 
 BOOL SysCtrl_API::GetEnviroment(char* key, char* pBuf, int nBufSize)
 {
@@ -64,6 +72,11 @@ BOOL SysCtrl_API::GetSystemTimeEx(char* pBuf, int nBufSize)
 	return ret;
 }
 
+
+// =============================================================================================== //
+// String Control API
+// =============================================================================================== //
+
 BOOL StrCtrl_API::AnsiStringToWideString(char* pSrcBuf, int nSrcBufSize, wchar_t* pDstBuf, int pDstBufMaxSize)
 {
 	BOOL ret = FALSE;
@@ -87,4 +100,34 @@ BOOL StrCtrl_API::WideStringToAnsiString(wchar_t* pSrcBuf, int nSrcBufSize, char
 	}
 
 	return ret;
+}
+
+// =============================================================================================== //
+// Process Control API
+// =============================================================================================== //
+
+bool ProcCtrl_API::StartProcess(char* szPath)
+{
+	return ProcCtrl.StartProcess(StrCtrl.AnsiStringToWideString(szPath));
+}
+
+bool ProcCtrl_API::StopProcess(char* szProcessName)
+{
+	return ProcCtrl.StopProcess(StrCtrl.AnsiStringToWideString(szProcessName));
+
+}
+
+bool ProcCtrl_API::IsProcessRunning(char* szProcessName)
+{
+	return ProcCtrl.IsProcessRunning(StrCtrl.AnsiStringToWideString(szProcessName));
+}
+
+bool ProcCtrl_API::SetProcessPriority(char* szProcName, DWORD dwPriority)
+{
+	return ProcCtrl.SetProcessPriority(StrCtrl.AnsiStringToWideString(szProcName), dwPriority);
+}
+
+bool ProcCtrl_API::MonitorProcessResources(char * szProcName, PROCESS_RESOURCE_USAGE* usage)
+{
+	return ProcCtrl.MonitorProcessResources(StrCtrl.AnsiStringToWideString(szProcName), *usage);
 }

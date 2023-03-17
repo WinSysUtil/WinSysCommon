@@ -163,6 +163,7 @@
     <ClInclude Include="ErrorCtrl.h" />
     <ClInclude Include="FileCtrl.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="ProcCtrl.h" />
     <ClInclude Include="RegCtrl.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ServiceCtrl.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ErrorCtrl.cpp" />
     <ClCompile Include="FileCtrl.cpp" />
+    <ClCompile Include="ProcCtrl.cpp" />
     <ClCompile Include="RegCtrl.cpp" />
     <ClCompile Include="ServiceCtrl.cpp" />
     <ClCompile Include="StrCtrl.cpp" />

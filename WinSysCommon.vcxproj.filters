@@ -45,6 +45,9 @@
     <ClInclude Include="ServiceCtrl.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ProcCtrl.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="StrCtrl.cpp">
       <Filter>소스 파일\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcCtrl.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
