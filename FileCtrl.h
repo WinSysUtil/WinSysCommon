@@ -114,6 +114,21 @@ public:
 	 * \return 성공(TRUE), 실패(FALSE)
 	 */
 	BOOL GetFiles(std::wstring wstrPath, std::vector<std::wstring>* files);
+
+	/**
+	 * 파일을 삭제하는 기능.
+	 * 
+	 * \param wstrPath - 삭제할 파일의 경로
+	 * \return 성공(TRUE), 실패(FALSE)
+	 */
+	BOOL RemoveFile(std::wstring wstrPath);
+	/**
+	 * 파일(디렉토리 구분 없이)을 삭제하는 기능.
+	 *
+	 * \param wstrPath - 삭제할 파일의 경로
+	 * \return 성공(TRUE), 실패(FALSE)
+	 */
+	BOOL RemoveFile(std::string wstrPath);
 	
 };
 

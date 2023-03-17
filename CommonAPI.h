@@ -27,8 +27,10 @@ extern "C" {
 		WINSYSCOMMON_API BOOL CreateDirectory(char* strPath);
 		WINSYSCOMMON_API BOOL FileExist(char* strPath);
 		WINSYSCOMMON_API FileType GetType(char* strPath);
+		WINSYSCOMMON_API BOOL RemoveFIle(char* strPath);
 		WINSYSCOMMON_API BOOL CopyFile(char* strSrc, char* strDst);
 		WINSYSCOMMON_API BOOL GetFiles(char* strSrc, std::vector<std::string>* files);
+		
 
 	}
 	

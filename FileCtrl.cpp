@@ -111,3 +111,13 @@ BOOL CFileCtrl::GetFiles(std::wstring strPath, std::vector<std::wstring>* files)
 
 	return ret;
 }
+
+BOOL CFileCtrl::RemoveFile(std::wstring wstrPath)
+{
+	return RemoveFile(StrCtrl.WideStringToAnsiString(wstrPath));
+}
+
+BOOL CFileCtrl::RemoveFile(std::string wstrPath)
+{
+	return fs::remove(wstrPath);
+}

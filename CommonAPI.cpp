@@ -19,6 +19,11 @@ FileType FileCtrl_API::GetType(char* strPath)
 	return FileCtrl.GetType(strPath);
 }
 
+BOOL FileCtrl_API::RemoveFIle(char* strPath)
+{
+	return FileCtrl.RemoveFile(strPath);
+}
+
 BOOL FileCtrl_API::CopyFile(char* strSrc, char* strDst)
 {
 	return FileCtrl.CopyFile(strSrc, strDst);
