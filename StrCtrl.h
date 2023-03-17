@@ -2,6 +2,9 @@
 #include <Windows.h>
 #include <string>
 
+class CStrCtrl;
+extern CStrCtrl StrCtrl;
+
 class CStrCtrl
 {
 public:

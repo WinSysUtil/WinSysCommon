@@ -1,5 +1,7 @@
 ﻿#include "StrCtrl.h"
 
+CStrCtrl StrCtrl;
+
 CStrCtrl::CStrCtrl()
 {
 }

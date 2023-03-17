@@ -26,7 +26,7 @@ typedef enum eFileType {
 	kDirectory
 } FileType;
 
-class CFileCtrl : protected CErrorCtrl, protected CStrCtrl
+class CFileCtrl : protected CErrorCtrl
 {
 public:
 

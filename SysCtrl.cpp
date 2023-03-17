@@ -26,6 +26,11 @@ BOOL CSysCtrl::SetEnviroment(std::string key, std::string value)
 	return ret;
 }
 
+BOOL CSysCtrl::SetEnviroment(std::wstring key, std::wstring value)
+{
+	return SetEnviroment(StrCtrl.WideStringToAnsiString(key), StrCtrl.WideStringToAnsiString(value));
+}
+
 BOOL CSysCtrl::GetEnviroment(std::string key, std::string& value)
 {
 	BOOL ret = FALSE;
@@ -43,19 +48,13 @@ BOOL CSysCtrl::GetEnviroment(std::string key, std::string& value)
 	return ret;
 }
 
-BOOL CSysCtrl::SetEnviroment(std::wstring key, std::wstring value)
-{
-	return SetEnviroment(std::string(key.begin(), key.end()), std::string(value.begin(), value.end()));
-}
-
 BOOL CSysCtrl::GetEnviroment(std::wstring key, std::wstring& value)
 {
 	BOOL ret = FALSE;
 	std::string strTemp;
-	if (TRUE == GetEnviroment(std::string(key.begin(), key.end()), strTemp))
+	if (TRUE == GetEnviroment(StrCtrl.WideStringToAnsiString(key), strTemp))
 	{
-		value.clear();
-		value.append(strTemp.begin(), strTemp.end());
+		value = StrCtrl.AnsiStringToWideString(strTemp);
 		ret = TRUE;
 	}
 

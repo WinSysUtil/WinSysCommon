@@ -12,7 +12,7 @@
 class CSysCtrl;
 extern CSysCtrl SysCtrl;
 
-class CSysCtrl : protected CStrCtrl, protected CErrorCtrl
+class CSysCtrl : protected CErrorCtrl
 {
 public:
 	CSysCtrl();

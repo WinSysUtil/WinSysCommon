@@ -15,7 +15,7 @@ CFileCtrl::~CFileCtrl()
 
 BOOL CFileCtrl::CreateDirectory(std::string strPath)
 {
-	auto wstrPath = AnsiStringToWideString(strPath);
+	auto wstrPath = StrCtrl.AnsiStringToWideString(strPath);
 	return CreateDirectory(strPath);
 }
 
@@ -33,7 +33,7 @@ BOOL CFileCtrl::CreateDirectory(std::wstring strPath)
 
 BOOL CFileCtrl::FileExists(std::string strPath)
 {
-	auto wstrPath = AnsiStringToWideString(strPath);
+	auto wstrPath = StrCtrl.AnsiStringToWideString(strPath);
 	return FileExists(strPath);
 }
 
@@ -44,7 +44,7 @@ BOOL CFileCtrl::FileExists(std::wstring strPath)
 
 FileType CFileCtrl::GetType(std::string strPath)
 {
-	auto wstrPath = AnsiStringToWideString(strPath);
+	auto wstrPath = StrCtrl.AnsiStringToWideString(strPath);
 	return GetType(wstrPath);
 }
 
@@ -64,7 +64,7 @@ FileType CFileCtrl::GetType(std::wstring strPath)
 
 BOOL CFileCtrl::CopyFile(std::string strSrc, std::string strDst)
 {
-	return CopyFile(AnsiStringToWideString(strSrc), AnsiStringToWideString(strDst));
+	return CopyFile(StrCtrl.AnsiStringToWideString(strSrc), StrCtrl.AnsiStringToWideString(strDst));
 }
 
 BOOL CFileCtrl::CopyFile(std::wstring wstrSrc, std::wstring wstrDst)

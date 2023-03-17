@@ -63,3 +63,28 @@ BOOL SysCtrl_API::GetSystemTimeEx(char* pBuf, int nBufSize)
 
 	return ret;
 }
+
+BOOL StrCtrl_API::AnsiStringToWideString(char* pSrcBuf, int nSrcBufSize, wchar_t* pDstBuf, int pDstBufMaxSize)
+{
+	BOOL ret = FALSE;
+	auto wstrTemp = StrCtrl.AnsiStringToWideString(pSrcBuf);
+	if (0 == wcsncpy_s(pDstBuf, pDstBufMaxSize, wstrTemp.c_str(), wstrTemp.length()))
+	{
+		ret = TRUE;
+	}
+
+	return ret;
+}
+
+BOOL StrCtrl_API::WideStringToAnsiString(wchar_t* pSrcBuf, int nSrcBufSize, char* pDstBuf, int pDstBufMaxSize)
+{
+	BOOL ret = FALSE;
+	std::wstring wstrTemp(pSrcBuf, pSrcBuf + nSrcBufSize);
+	auto strTemp = StrCtrl.WideStringToAnsiString(wstrTemp);
+	if (0 == strncpy_s(pDstBuf, pDstBufMaxSize, strTemp.c_str(), strTemp.length()))
+	{
+		ret = TRUE;
+	}
+
+	return ret;
+}
