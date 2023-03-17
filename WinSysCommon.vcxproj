@@ -163,15 +163,21 @@
     <ClInclude Include="ErrorCtrl.h" />
     <ClInclude Include="FileCtrl.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="RegCtrl.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ServiceCtrl.h" />
     <ClInclude Include="StrCtrl.h" />
+    <ClInclude Include="SysCtrl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommonAPI.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="ErrorCtrl.cpp" />
     <ClCompile Include="FileCtrl.cpp" />
+    <ClCompile Include="RegCtrl.cpp" />
+    <ClCompile Include="ServiceCtrl.cpp" />
     <ClCompile Include="StrCtrl.cpp" />
+    <ClCompile Include="SysCtrl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WinSysCommon.rc" />
