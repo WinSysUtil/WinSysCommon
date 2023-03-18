@@ -1,4 +1,10 @@
-﻿#include "CommonAPI.h"
+﻿#include "FileCtrl.h"
+#include "SysCtrl.h"
+#include "ProcCtrl.h"
+#include "RegCtrl.h"
+
+#include "CommonAPI.h"
+
 
 // =============================================================================================== //
 // Registry Control API

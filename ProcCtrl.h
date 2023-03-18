@@ -3,18 +3,12 @@
 #include <tlhelp32.h>
 #include <psapi.h>
 #include <iostream>
+#pragma hdrstop
+
+#include "CommonStruct.h"
 
 class CProcCtrl;
 extern  CProcCtrl ProcCtrl;
-
-
-typedef struct _PROCESS_RESOURCE_USAGE {
-    DWORD workingSetSize;
-    DWORD quotaPagedPoolUsage;
-    DWORD quotaNonPagedPoolUsage;
-    DWORD pagefileUsage;
-} PROCESS_RESOURCE_USAGE, * PPROCESS_RESOURCE_USAGE;
-
 
 
 /**

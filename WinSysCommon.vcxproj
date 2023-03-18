@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CommonAPI.h" />
+    <ClInclude Include="CommonStruct.h" />
     <ClInclude Include="ErrorCtrl.h" />
     <ClInclude Include="FileCtrl.h" />
     <ClInclude Include="framework.h" />

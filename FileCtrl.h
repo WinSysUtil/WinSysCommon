@@ -7,7 +7,7 @@
 
 #include "StrCtrl.h"
 #include "ErrorCtrl.h"
-
+#include "CommonStruct.h"
 
 #ifdef CreateDirectory
 #undef CreateDirectory
@@ -19,12 +19,6 @@
 
 class CFileCtrl;
 extern CFileCtrl FileCtrl;
-
-typedef enum eFileType {
-	kNone = 0,
-	kFile,
-	kDirectory
-} FileType;
 
 class CFileCtrl : protected CErrorCtrl
 {

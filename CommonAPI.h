@@ -1,10 +1,7 @@
 ﻿#pragma once
 #include <Windows.h>
 #pragma hdrstop
-#include "FileCtrl.h"
-#include "SysCtrl.h"
-#include "ProcCtrl.h"
-#include "RegCtrl.h"
+#include "CommonStruct.h"
 
 #if WINSYSCOMMON_EXPORTS
 #define WINSYSCOMMON_API _declspec(dllexport)
