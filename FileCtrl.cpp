@@ -16,7 +16,7 @@ CFileCtrl::~CFileCtrl()
 BOOL CFileCtrl::CreateDirectory(std::string strPath)
 {
 	auto wstrPath = StrCtrl.AnsiStringToWideString(strPath);
-	return CreateDirectory(strPath);
+	return CreateDirectory(wstrPath);
 }
 
 BOOL CFileCtrl::CreateDirectory(std::wstring strPath)
@@ -34,7 +34,7 @@ BOOL CFileCtrl::CreateDirectory(std::wstring strPath)
 BOOL CFileCtrl::FileExists(std::string strPath)
 {
 	auto wstrPath = StrCtrl.AnsiStringToWideString(strPath);
-	return FileExists(strPath);
+	return FileExists(wstrPath);
 }
 
 BOOL CFileCtrl::FileExists(std::wstring strPath)
