@@ -115,6 +115,7 @@ extern "C" {
 		typedef BOOL(*fp_GetEnviroment)(char* key, char* pBuf, int nBufSize);
 		typedef BOOL(*fp_SetEnviroment)(char* key, char* value);
 		typedef BOOL(*fp_GetSystemTimeEx)(char* pBuf, int nBufSize);
+		typedef BOOL(*fp_IsProcessElevated)();
 
 		/**
 		 * GetEnviroment는 지정된 환경 변수의 값을 검색합니다.
