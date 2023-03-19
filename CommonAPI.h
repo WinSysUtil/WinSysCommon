@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <Windows.h>
+#include <vector>
 #pragma hdrstop
 #include "CommonStruct.h"
 
@@ -8,6 +9,17 @@
 #else
 #define WINSYSCOMMON_API _declspec(dllexport)
 #endif
+
+
+#ifdef CreateDirectory
+#undef CreateDirectory
+#endif
+
+#ifdef CopyFileW
+#undef CopyFileW
+#endif
+
+
 
 #if __cplusplus
 extern "C" {
