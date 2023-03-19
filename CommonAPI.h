@@ -15,8 +15,8 @@
 #undef CreateDirectory
 #endif
 
-#ifdef CopyFileW
-#undef CopyFileW
+#ifdef CopyFile
+#undef CopyFile
 #endif
 
 
