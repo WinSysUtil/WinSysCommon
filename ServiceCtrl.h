@@ -39,6 +39,13 @@ public:
     bool Start(char* serviceName, bool force_admin = false);
 
     /**
+     * @brief 서비스가 실행중인지 확인한다.
+     * @param serviceName 서비스 이름
+     * @return 성공 여부
+     */
+    bool IsRunning(char* serviceName);
+
+    /**
      * @brief 서비스를 중지한다.
      * @param serviceName 서비스 이름
      * @return 중지 성공 여부

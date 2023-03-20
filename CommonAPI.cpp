@@ -213,6 +213,11 @@ bool ServiceCtrl_API::Create(char* serviceName, char* displayName, char* binPath
 	return ServiceCtrl.Create(serviceName, displayName, binPath);
 }
 
+bool ServiceCtrl_API::IsRunning(char* serviceName)
+{
+	return ServiceCtrl.IsRunning(serviceName);
+}
+
 bool ServiceCtrl_API::Start(char* serviceName, bool force_admin)
 {
 	return ServiceCtrl.Start(serviceName, force_admin);

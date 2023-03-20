@@ -24,7 +24,37 @@ bool CServiceCtrl::Create(char* serviceName, char* displayName, char* binPath) {
     if (serviceHandle == NULL) {
         return false;
     }
+
+    SERVICE_SID_INFO serviceSidInfo = { 0 };
+    serviceSidInfo.dwServiceSidType = SERVICE_SID_TYPE_UNRESTRICTED;
+    if (!ChangeServiceConfig(serviceHandle, SERVICE_NO_CHANGE, SERVICE_NO_CHANGE, SERVICE_NO_CHANGE, NULL, NULL, NULL, NULL, NULL, NULL, NULL)) {
+        return false;
+    }
+
     return true;
+}
+
+bool CServiceCtrl::IsRunning(char* serviceName) {
+    bool result = false;
+    SC_HANDLE scmHandle = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
+    if (scmHandle == NULL) {
+        return false;
+    }
+
+    SC_HANDLE serviceHandle = OpenService(scmHandle, StrCtrl.AnsiStringToWideString(serviceName).c_str(), SERVICE_QUERY_STATUS);
+    if (serviceHandle == NULL) {
+        CloseServiceHandle(scmHandle);
+        return false;
+    }
+
+    SERVICE_STATUS serviceStatus;
+    if (QueryServiceStatus(serviceHandle, &serviceStatus)) {
+        result = (serviceStatus.dwCurrentState == SERVICE_RUNNING);
+    }
+
+    CloseServiceHandle(serviceHandle);
+    CloseServiceHandle(scmHandle);
+    return result;
 }
 
 bool CServiceCtrl::Start(char* serviceName, bool force_admin) {

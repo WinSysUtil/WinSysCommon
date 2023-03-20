@@ -264,6 +264,7 @@ extern "C" {
 	namespace ServiceCtrl_API {
 		typedef bool(*fp_Create)(const char* serviceName, const char* displayName, const char* binPath);
 		typedef bool(*fp_Start)(const char* serviceName, bool force_admin);
+		typedef bool(*fp_IsRunning)(const char* serviceName);
 		typedef bool(*fp_Stop)(const char* serviceName);
 		typedef bool(*fp_Restart)(const char* serviceName);
 		typedef bool(*fp_Delete)(const char* serviceName);
@@ -277,6 +278,13 @@ extern "C" {
 		 * @return true : 성공 / false : 실패
 		 */
 		WINSYSCOMMON_API bool Create(char* serviceName, char* displayName, char* binPath);
+
+		/**
+		 * @brief 서비스가 실행중인지 확인한다.
+		 * @param serviceName 서비스 이름
+		 * @return 성공 여부
+		 */
+		WINSYSCOMMON_API bool IsRunning(char* serviceName);
 
 		/**
 		 * @brief 윈도우 서비스 시작
