@@ -64,6 +64,22 @@ BOOL FileCtrl_API::GetFiles(char* strSrc, std::vector<std::string>* files)
 	return FileCtrl.GetFiles(strSrc, files);
 }
 
+BOOL FileCtrl_API::FileVersion(char* pPath, int nLenPath, char* pDst, int nMaxLenDst)
+{
+	BOOL nRet = FALSE;
+
+	std::string strPath(pPath, nLenPath);
+	std::string version;
+	if (FileCtrl.FileVersion(strPath, version))
+	{
+		if (0 == strncpy_s(pDst, nMaxLenDst, version.c_str(), version.length()))
+			nRet = TRUE;
+	}
+	
+
+	return nRet;
+}
+
 // =============================================================================================== //
 // System Control API
 // =============================================================================================== //

@@ -121,3 +121,56 @@ BOOL CFileCtrl::RemoveFile(std::string wstrPath)
 {
 	return fs::remove(wstrPath);
 }
+
+BOOL CFileCtrl::FileVersion(std::string& strPath, std::string& version)
+{
+	std::wstring wstrPath = StrCtrl.AnsiStringToWideString(strPath);
+	std::wstring wstrVersion;
+	BOOL nRet = FileVersion(wstrPath, wstrVersion);
+	if (TRUE == nRet)
+		version.assign(wstrVersion.begin(), wstrVersion.end());
+	
+
+	return nRet;
+}
+
+BOOL CFileCtrl::FileVersion(std::wstring& strPath, std::wstring& version)
+{
+	DWORD  verHandle = 0;
+	UINT   size = 0;
+	LPBYTE lpBuffer = NULL;
+	DWORD  verSize = GetFileVersionInfoSize(strPath.c_str(), &verHandle);
+
+	BOOL nRet = FALSE;
+
+	if (verSize != NULL)
+	{
+		LPSTR verData = new char[verSize];
+
+		if (GetFileVersionInfo(strPath.c_str(), verHandle, verSize, verData))
+		{
+			if (VerQueryValue(verData, L"\\", (VOID FAR * FAR*) & lpBuffer, &size))
+			{
+				if (size)
+				{
+					VS_FIXEDFILEINFO* verInfo = (VS_FIXEDFILEINFO*)lpBuffer;
+					if (verInfo->dwSignature == 0xfeef04bd)
+					{
+						int major = (verInfo->dwFileVersionMS >> 16) & 0xffff;
+						int minor = (verInfo->dwFileVersionMS >> 0) & 0xffff;
+						int build = (verInfo->dwFileVersionLS >> 16) & 0xffff;
+						int revision = (verInfo->dwFileVersionLS >> 0) & 0xffff;
+
+						version = std::format(L"{}.{}.{}.{}", major, minor, build, revision);
+
+						nRet = TRUE;
+					}
+				}
+			}
+		}
+
+		delete[] verData;
+	}
+
+	return nRet;
+}

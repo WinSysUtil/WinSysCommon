@@ -62,6 +62,7 @@ extern "C" {
 		typedef FileType(*fp_GetType)(char* strPath);
 		typedef BOOL(*fp_CopyFile)(char* strSrc, char* strDst);
 		typedef BOOL(*fp_GetFiles)(char* strSrc, std::vector<std::string>* files);
+		typedef BOOL(*fp_FileVersion)(char* pPath, int nLenPath, char* pDst, int nMaxLenDst);
 
 		/**
 		 * CreateDirectory는 새 디렉터리를 만듭니다.
@@ -106,6 +107,18 @@ extern "C" {
 		 * @return 함수가 성공하면 true를, 그렇지 않으면 false를 반환합니다.
 		 */
 		WINSYSCOMMON_API BOOL GetFiles(char* strSrc, std::vector<std::string>* files);
+
+		/**
+		 * FileVersion는 특정 파일의 버전을 추출합니다.
+		 * pDst 사용 전 NULL 값으로 초기화 필수
+		 * 
+		 * 
+		 * @param pPath		- 버전을 갖여올 파일의 경로
+		 * @param nLenPath	- 해당 경로의 길이
+		 * @param pDst		- 버전 정보가 담길 공간
+		 * @param nMaxLenDst - Dst의 최대 크기
+		 */
+		WINSYSCOMMON_API BOOL FileVersion(char* pPath, int nLenPath, char* pDst, int nMaxLenDst);
 	}
 
 	/**

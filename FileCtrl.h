@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <format>
+#pragma comment(lib, "version.lib")
 #pragma hdrstop
 
 #include "StrCtrl.h"
@@ -123,6 +125,23 @@ public:
 	 * \return 성공(TRUE), 실패(FALSE)
 	 */
 	BOOL RemoveFile(std::string wstrPath);
+
+	/**
+	 * 파일의 버전을 얻는 기능 .
+	 * 
+	 * \param strPath - 버전을 얻을 파일 경로 
+	 * \param version - 버전 정보가 담길 공간
+	 * \return 성공(TRUE), 실패(FALSE)
+	 */
+	BOOL FileVersion(std::string& strPath, std::string& version);
+	/**
+	 * 파일의 버전을 얻는 기능 .
+	 *
+	 * \param strPath - 버전을 얻을 파일 경로
+	 * \param version - 버전 정보가 담길 공간
+	 * \return 성공(TRUE), 실패(FALSE)
+	 */
+	BOOL FileVersion(std::wstring& strPath, std::wstring& version);
 	
 };
 
