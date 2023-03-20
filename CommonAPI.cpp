@@ -159,6 +159,11 @@ BOOL StrCtrl_API::WideStringToAnsiString(wchar_t* pSrcBuf, int nSrcBufSize, char
 	return ret;
 }
 
+int StrCtrl_API::GetStringParsing(WCHAR* pString, WCHAR* pDelimiter, std::vector<std::wstring>* pVecString)
+{
+	return StrCtrl.GetStringParsing(pString, pDelimiter, pVecString);
+}
+
 // =============================================================================================== //
 // Process Control API
 // =============================================================================================== //

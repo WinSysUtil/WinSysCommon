@@ -237,6 +237,17 @@ extern "C" {
 		 */
 		WINSYSCOMMON_API BOOL WideStringToAnsiString(wchar_t* pSrcBuf, int nSrcBufSize, char* pDstBuf, int pDstBufMaxSize);
 
+		/**
+		 * @brief 문자열을 구분자로 나누어 벡터에 저장합니다.
+		 *
+		 * @param pString 구분할 문자열입니다.
+		 * @param pDelimiter 구분자입니다.
+		 * @param pVecString 문자열을 저장할 벡터입니다.
+		 * @return int ERROR_SUCCESS : 성공적으로 처리되었습니다.
+		 * @return int ERROR_INVALID_PARAMETER : 입력된 매개변수 중 하나 이상이 NULL입니다.
+		 */
+		WINSYSCOMMON_API int GetStringParsing(WCHAR* pString, WCHAR* pDelimiter, std::vector<std::wstring>* pVecString);
+
 	}
 
 #if __cplusplus
