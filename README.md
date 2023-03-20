@@ -10,6 +10,7 @@ Windows 운영체제에서 파일 및 시스템 정보를 관리하기 위한 AP
 - [X] 파일시스템 제어
 - [X] 윈도우시스템 제어
 - [X] 프로세스 제어
+- [X] 서비스 제어
 - [X] 문자열 제어
 
 
@@ -43,7 +44,17 @@ Windows 운영체제에서 파일 및 시스템 정보를 관리하기 위한 AP
 - `MonitorProcessResources` : 프로세스의 자원 사용량을 모니터링합니다.
 - `IsProcessElevated` : 현재 프로세스가 관리자 권한을 갖는지 확인합니다.
 
+### Service Control API (StrCtrl_API)
+
+- `Create` : 서비스를 생성합니다.
+- `Start` : 서비스를 시작합니다.
+- `Stop` : 서비스를 중지합니다.
+- `Restart` : 서비스를 재시작합니다.
+- `Delete` : 서비스를 삭제합니다.
+
 ### String Control API (StrCtrl_API)
 
 - `AnsiStringToWideString` : ANSI 문자열을 UNICODE 문자열로 변환합니다.
 - `WideStringToAnsiString` : UNICODE 문자열을 ANSI 문자열로 변환합니다.
+
+
