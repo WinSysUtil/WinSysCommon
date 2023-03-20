@@ -9,7 +9,7 @@ CProcCtrl::CProcCtrl() {
 
 CProcCtrl::~CProcCtrl() {}
 
-bool CProcCtrl::StartProcess(const std::wstring& szPath) 
+bool CProcCtrl::StartProcess(const std::wstring& szPath, DWORD& dwPid) 
 {
     PROCESS_INFORMATION pi = { 0 };
     STARTUPINFO si = { sizeof(si) };
@@ -17,6 +17,9 @@ bool CProcCtrl::StartProcess(const std::wstring& szPath)
     {
         return false;
     }
+
+    dwPid = pi.dwProcessId;
+
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
     return true;
@@ -128,4 +131,38 @@ bool CProcCtrl::MonitorProcessResources(const std::wstring& szProcName, PROCESS_
     }
     CloseHandle(m_hSnapShot);
     return false;
+}
+
+int CProcCtrl::InjectDLL(const std::wstring& wstrDllPath, DWORD dwPID)
+{
+    int nRet = ERROR_SUCCESS;
+
+    // 대상 프로세스 핸들
+    HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPID);
+
+
+    // LoadLibraryA 이므로 ANSI 타입으로 처리해줘야함.
+    auto strDllPath = StrCtrl.WideStringToAnsiString(wstrDllPath);
+
+    // LoadLibraryA 함수 주소 가져오기
+    LPVOID loadLibraryAddress = (LPVOID)GetProcAddress(GetModuleHandleW(L"kernel32.dll"), "LoadLibraryA");
+
+    // DLL 경로를 대상 프로세스 메모리에 쓰기
+    LPVOID dllAddress = VirtualAllocEx(hProcess, NULL, strDllPath.length() + 1, MEM_COMMIT, PAGE_READWRITE);
+    WriteProcessMemory(hProcess, dllAddress, strDllPath.c_str(), strDllPath.length() + 1, NULL);
+
+    // 쓰여진 DLL 경로를 LoadLibraryA 함수 주소로 전달하여 DLL Injection 수행
+    HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)loadLibraryAddress, dllAddress, 0, NULL);
+
+    // 인젝션에 실패한 경우
+    if (hThread == NULL)
+    {
+        nRet = ERROR_INVALID_PARAMETER;
+    }
+
+    // 핸들과 메모리 해제
+    CloseHandle(hProcess);
+    VirtualFreeEx(hProcess, dllAddress, strDllPath.length() + 1, MEM_RELEASE);
+
+    return nRet;
 }

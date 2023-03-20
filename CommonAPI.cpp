@@ -168,9 +168,13 @@ int StrCtrl_API::GetStringParsing(WCHAR* pString, WCHAR* pDelimiter, std::vector
 // Process Control API
 // =============================================================================================== //
 
-bool ProcCtrl_API::StartProcess(char* szPath)
+bool ProcCtrl_API::StartProcess(char* szPath, DWORD* pPID)
 {
-	return ProcCtrl.StartProcess(StrCtrl.AnsiStringToWideString(szPath));
+	DWORD dwPID = 0;
+	bool bRet = ProcCtrl.StartProcess(StrCtrl.AnsiStringToWideString(szPath), dwPID);
+	if (bRet = true)
+		(*pPID) = dwPID;
+	return bRet;
 }
 
 bool ProcCtrl_API::StopProcess(char* szProcessName)
@@ -192,4 +196,10 @@ bool ProcCtrl_API::SetProcessPriority(char* szProcName, DWORD dwPriority)
 bool ProcCtrl_API::MonitorProcessResources(char * szProcName, PROCESS_RESOURCE_USAGE* usage)
 {
 	return ProcCtrl.MonitorProcessResources(StrCtrl.AnsiStringToWideString(szProcName), *usage);
+}
+
+int ProcCtrl_API::InjectDLL(char* pDllPath, int nLenDllPath, DWORD dwPID)
+{
+	std::wstring wstrPath(pDllPath, pDllPath + nLenDllPath);
+	return ProcCtrl.InjectDLL(wstrPath, dwPID);
 }

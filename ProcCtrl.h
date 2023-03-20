@@ -6,6 +6,8 @@
 #pragma hdrstop
 
 #include "CommonStruct.h"
+#include "StrCtrl.h"
+
 
 class CProcCtrl;
 extern  CProcCtrl ProcCtrl;
@@ -28,9 +30,11 @@ public:
     /**
      * @brief 주어진 경로의 프로세스를 실행하는 함수
      * @param szPath 실행할 프로세스의 경로
+     * @param dwPID 함수 성공 시, 실행된 프로세스의 ID값
+     * 
      * @return 프로세스 실행에 성공하면 true, 실패하면 false 반환
      */
-    bool StartProcess(const std::wstring& szPath);
+    bool StartProcess(const std::wstring& szPath, DWORD& dwPID);
 
     /**
      * @brief 주어진 프로세스 이름의 프로세스를 종료하는 함수
@@ -60,6 +64,15 @@ public:
      * @return 프로세스를 찾지 못하면 false, 그렇지 않으면 true 반환
      */
     bool MonitorProcessResources(const std::wstring& szProcName, PROCESS_RESOURCE_USAGE& usage);
+
+    /**
+     * \brief 프로세스 ID로 특정 프로세스에 DLL을 인젝션 시키는 함수.
+     * 
+     * \param strDllPath    - 인젝션 시킬 DLL 파일 경로
+     * \param dwPID         - 인젝션 시킬 Process ID 값
+     * \return 성공 - ERROR_SUCCESS, 실패 - ERROR_INVALID_PARAMETER
+     */
+    int InjectDLL(const std::wstring& wstrDllPath, DWORD dwPID);
 
 private:
     HANDLE m_hSnapShot; ///< 프로세스 스냅샷의 핸들

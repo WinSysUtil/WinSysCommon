@@ -171,13 +171,14 @@ extern "C" {
 		typedef bool(*fp_IsProcessRunning)(char*);
 		typedef bool(*fp_SetProcessPriority)(char*, DWORD);
 		typedef bool(*fp_MonitorProcessResources)(char*, PROCESS_RESOURCE_USAGE*);
+		typedef int (*fp_InjectDLL)(char* pDllPath, int nLenDllPath, DWORD dwPID);
 
 		/**
 		 * StartProcess는 새 프로세스를 시작합니다.
 		 * @param szPath 실행할 실행 파일의 경로입니다.
 		 * @return 함수가 성공하면 true를, 그렇지 않으면 false를 반환합니다.
 		 */
-		WINSYSCOMMON_API bool StartProcess(char* szPath);
+		WINSYSCOMMON_API bool StartProcess(char* szPath, DWORD* pPID);
 
 		/**
 		 * StopProcess는 프로세스를 이름으로 종료합니다.
@@ -208,6 +209,15 @@ extern "C" {
 		 * @return 함수가 성공하면 true를, 그렇지 않으면 false를 반환합니다.
 		 */
 		WINSYSCOMMON_API bool MonitorProcessResources(char* szProcName, PROCESS_RESOURCE_USAGE* usage);
+
+		/**
+		 * \brief 프로세스 ID로 특정 프로세스에 DLL을 인젝션 시키는 함수.
+		 *
+		 * \param strDllPath    - 인젝션 시킬 DLL 파일 경로
+		 * \param dwPID         - 인젝션 시킬 Process ID 값
+		 * \return 성공 - ERROR_SUCCESS, 실패 - ERROR_INVALID_PARAMETER
+		 */
+		WINSYSCOMMON_API int InjectDLL(char * pDllPath, int nLenDllPath, DWORD dwPID);
 	}
 
 	/**
@@ -216,6 +226,7 @@ extern "C" {
 	namespace StrCtrl_API {
 		typedef BOOL(*fp_AnsiStringToWideString)(char* pSrcBuf, int nSrcBufSize, wchar_t* pDstBuf, int pDstBufMaxSize);
 		typedef BOOL(*fp_WideStringToAnsiString)(wchar_t* pSrcBuf, int nSrcBufSize, char* pDstBuf, int pDstBufMaxSize);
+		typedef BOOL(*fp_GetStringParsing)(WCHAR* pString, WCHAR* pDelimiter, std::vector<std::wstring>* pVecString);
 
 		/**
 		 * AnsiStringToWideString은 멀티바이트 문자열을 와이드 문자열로 변환합니다.
