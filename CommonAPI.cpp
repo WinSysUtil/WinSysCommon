@@ -2,7 +2,7 @@
 #include "SysCtrl.h"
 #include "ProcCtrl.h"
 #include "RegCtrl.h"
-
+#include "ServiceCtrl.h"
 #include "CommonAPI.h"
 
 
@@ -202,4 +202,34 @@ int ProcCtrl_API::InjectDLL(char* pDllPath, int nLenDllPath, DWORD dwPID)
 {
 	std::wstring wstrPath(pDllPath, pDllPath + nLenDllPath);
 	return ProcCtrl.InjectDLL(wstrPath, dwPID);
+}
+
+// =============================================================================================== //
+// Service Control API
+// =============================================================================================== //
+
+bool ServiceCtrl_API::Create(char* serviceName, char* displayName, char* binPath)
+{
+	return ServiceCtrl.Create(serviceName, displayName, binPath);
+}
+
+bool ServiceCtrl_API::Start(char* serviceName, bool force_admin)
+{
+	return ServiceCtrl.Start(serviceName, force_admin);
+
+}
+
+bool ServiceCtrl_API::Stop(char* serviceName)
+{
+	return ServiceCtrl.Stop(serviceName);
+}
+
+bool ServiceCtrl_API::Restart(char* serviceName)
+{
+	return ServiceCtrl.Restart(serviceName);
+}
+
+bool ServiceCtrl_API::Delete(char* serviceName)
+{
+	return ServiceCtrl.Stop(serviceName);
 }

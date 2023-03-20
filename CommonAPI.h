@@ -226,7 +226,7 @@ extern "C" {
 	namespace StrCtrl_API {
 		typedef BOOL(*fp_AnsiStringToWideString)(char* pSrcBuf, int nSrcBufSize, wchar_t* pDstBuf, int pDstBufMaxSize);
 		typedef BOOL(*fp_WideStringToAnsiString)(wchar_t* pSrcBuf, int nSrcBufSize, char* pDstBuf, int pDstBufMaxSize);
-		typedef BOOL(*fp_GetStringParsing)(WCHAR* pString, WCHAR* pDelimiter, std::vector<std::wstring>* pVecString);
+		typedef BOOL(*fp_GetStringParsing)(wchar_t* pString, wchar_t* pDelimiter, std::vector<std::wstring>* pVecString);
 
 		/**
 		 * AnsiStringToWideString은 멀티바이트 문자열을 와이드 문자열로 변환합니다.
@@ -258,6 +258,58 @@ extern "C" {
 		 * @return int ERROR_INVALID_PARAMETER : 입력된 매개변수 중 하나 이상이 NULL입니다.
 		 */
 		WINSYSCOMMON_API int GetStringParsing(WCHAR* pString, WCHAR* pDelimiter, std::vector<std::wstring>* pVecString);
+
+	}
+
+	namespace ServiceCtrl_API {
+		typedef bool(*fp_Create)(const char* serviceName, const char* displayName, const char* binPath);
+		typedef bool(*fp_Start)(const char* serviceName, bool force_admin);
+		typedef bool(*fp_Stop)(const char* serviceName);
+		typedef bool(*fp_Restart)(const char* serviceName);
+		typedef bool(*fp_Delete)(const char* serviceName);
+
+		/**
+		 * @brief 윈도우 서비스 생성
+		 *
+		 * @param serviceName : 생성할 서비스명
+		 * @param displayName : 서비스 설명
+		 * @param binPath : 서비스 실행 파일 경로
+		 * @return true : 성공 / false : 실패
+		 */
+		WINSYSCOMMON_API bool Create(char* serviceName, char* displayName, char* binPath);
+
+		/**
+		 * @brief 윈도우 서비스 시작
+		 *
+		 * @param serviceName : 시작할 서비스명
+		 * @param force_admin : 관리자 권한으로 실행 여부
+		 * @return true : 성공 / false : 실패
+		 */
+		WINSYSCOMMON_API bool Start(char* serviceName, bool force_admin = false);
+
+		/**
+		 * @brief 윈도우 서비스 중지
+		 *
+		 * @param serviceName : 중지할 서비스명
+		 * @return true : 성공 / false : 실패
+		 */
+		WINSYSCOMMON_API bool Stop(char* serviceName);
+
+		/**
+		 * @brief 윈도우 서비스 재시작
+		 *
+		 * @param serviceName : 재시작할 서비스명
+		 * @return true : 성공 / false : 실패
+		 */
+		WINSYSCOMMON_API bool Restart(char* serviceName);
+
+		/**
+		 * @brief 윈도우 서비스 삭제
+		 *
+		 * @param serviceName : 삭제할 서비스명
+		 * @return true : 성공 / false : 실패
+		 */
+		WINSYSCOMMON_API bool Delete(char* serviceName);
 
 	}
 
