@@ -46,9 +46,10 @@ public:
     /**
      * @brief 주어진 프로세스 이름의 프로세스가 실행 중인지 확인하는 함수
      * @param szProcName 확인할 프로세스의 이름
+     * @param dwPID PID값을 받아올 레퍼런스
      * @return 프로세스가 실행 중이면 true, 그렇지 않으면 false 반환
      */
-    bool IsProcessRunning(const std::wstring& szProcName);
+    bool IsProcessRunning(const std::wstring& szProcName, DWORD& dwPID);
 
     /**
      * @brief 주어진 프로세스 이름의 프로세스의 우선순위를 설정하는 함수

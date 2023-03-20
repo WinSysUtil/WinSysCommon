@@ -49,7 +49,7 @@ bool CProcCtrl::StopProcess(const std::wstring& szProcName)
     return false;
 }
 
-bool CProcCtrl::IsProcessRunning(const std::wstring& szProcName) 
+bool CProcCtrl::IsProcessRunning(const std::wstring& szProcName, DWORD& dwPID)
 {
     m_hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
     m_pe = { sizeof(m_pe) };
@@ -58,6 +58,7 @@ bool CProcCtrl::IsProcessRunning(const std::wstring& szProcName)
         do {
             if (wcscmp(m_pe.szExeFile, szProcName.c_str()) == 0) 
             {
+                dwPID = m_pe.th32ProcessID;
                 CloseHandle(m_hSnapShot);
                 return true;
             }

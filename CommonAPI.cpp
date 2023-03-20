@@ -183,9 +183,18 @@ bool ProcCtrl_API::StopProcess(char* szProcessName)
 
 }
 
-bool ProcCtrl_API::IsProcessRunning(char* szProcessName)
+bool ProcCtrl_API::IsProcessRunning(char* szProcessName, DWORD* dwPID)
 {
-	return ProcCtrl.IsProcessRunning(StrCtrl.AnsiStringToWideString(szProcessName));
+	DWORD dwTemp = 0;
+	bool nRet =  ProcCtrl.IsProcessRunning(StrCtrl.AnsiStringToWideString(szProcessName), dwTemp);
+	// 프로세스가 실행중이고, 매개변수 dwPID가 존재하는 경우
+	if (true == nRet && nullptr != dwPID)
+	{
+		(*dwPID) = dwTemp;
+	}
+
+	return nRet;
+
 }
 
 bool ProcCtrl_API::SetProcessPriority(char* szProcName, DWORD dwPriority)

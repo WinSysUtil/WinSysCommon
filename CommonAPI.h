@@ -188,11 +188,12 @@ extern "C" {
 		WINSYSCOMMON_API bool StopProcess(char* szProcessName);
 
 		/**
-		 * IsProcessRunning은 프로세스가 실행 중인지 여부를 결정합니다.
-		 * @param szProcessName 테스트할 프로세스의 이름입니다.
-		 * @return 프로세스가 실행 중이면 true를, 그렇지 않으면 false를 반환합니다.
-		 */
-		WINSYSCOMMON_API bool IsProcessRunning(char* szProcessName);
+		* @brief 주어진 프로세스 이름의 프로세스가 실행 중인지 확인하는 함수
+		* @param szProcName 확인할 프로세스의 이름
+		* @param dwPID PID값을 받아올 포인터
+		* @return 프로세스가 실행 중이면 true, 그렇지 않으면 false 반환
+		*/
+		WINSYSCOMMON_API bool IsProcessRunning(char* szProcessName, DWORD* dwPID);
 
 		/**
 		 * SetProcessPriority는 지정된 프로세스의 우선 순위 클래스를 설정합니다.
