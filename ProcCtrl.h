@@ -76,6 +76,7 @@ public:
     int InjectDLL(const std::wstring& wstrDllPath, DWORD dwPID);
 
 private:
+    bool IsInjected(const std::wstring& wstrDllPath, DWORD dwPID);
     HANDLE m_hSnapShot; ///< 프로세스 스냅샷의 핸들
     PROCESSENTRY32 m_pe; ///< 프로세스 정보를 저장하는 구조체
 };

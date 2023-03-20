@@ -137,6 +137,8 @@ bool CProcCtrl::MonitorProcessResources(const std::wstring& szProcName, PROCESS_
 int CProcCtrl::InjectDLL(const std::wstring& wstrDllPath, DWORD dwPID)
 {
     int nRet = ERROR_SUCCESS;
+    if (true == IsInjected(wstrDllPath, dwPID))
+        return nRet;
 
     // 대상 프로세스 핸들
     HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPID);
@@ -166,4 +168,28 @@ int CProcCtrl::InjectDLL(const std::wstring& wstrDllPath, DWORD dwPID)
     VirtualFreeEx(hProcess, dllAddress, strDllPath.length() + 1, MEM_RELEASE);
 
     return nRet;
+}
+
+bool CProcCtrl::IsInjected(const std::wstring& wstrDllPath, DWORD dwPID)
+{
+    m_hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwPID);
+    if (m_hSnapShot == INVALID_HANDLE_VALUE) {
+        return false;
+    }
+
+    MODULEENTRY32 me32 = { sizeof(me32) };
+    if (!Module32First(m_hSnapShot, &me32)) {
+        CloseHandle(m_hSnapShot);
+        return false;
+    }
+
+    do {
+        if (wstrDllPath.compare(me32.szModule) == 0) {
+            CloseHandle(m_hSnapShot);
+            return true;
+        }
+    } while (Module32Next(m_hSnapShot, &me32));
+
+    CloseHandle(m_hSnapShot);
+    return false;
 }
