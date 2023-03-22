@@ -137,7 +137,8 @@ bool CProcCtrl::MonitorProcessResources(const std::wstring& szProcName, PROCESS_
 int CProcCtrl::InjectDLL(const std::wstring& wstrDllPath, DWORD dwPID)
 {
     int nRet = ERROR_SUCCESS;
-    if (true == IsInjected(wstrDllPath, dwPID))
+    std::wstring wstrDllName = wstrDllPath.substr(wstrDllPath.rfind(L"\\") + 1);
+    if (true == IsInjected(wstrDllName, dwPID))
         return nRet;
 
     // 대상 프로세스 핸들

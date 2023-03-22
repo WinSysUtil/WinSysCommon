@@ -30,6 +30,11 @@ bool RegCtrl_API::SetRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wc
 	return RegCtrl.SetRegistry(hKey, subKey, valueName, data);
 }
 
+bool RegCtrl_API::DeleteRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName)
+{
+	return RegCtrl.DeleteRegistry(hKey, subKey, valueName);
+}
+
 // =============================================================================================== //
 // File Control API
 // =============================================================================================== //
@@ -127,6 +132,19 @@ BOOL SysCtrl_API::IsProcessElevated()
 {
 	return SysCtrl.IsProcessElevated();
 
+}
+
+BOOL SysCtrl_API::AddStartProgram(char* pName, int nLenName, char* pBinPath, int nLenPath)
+{
+	return RegCtrl.SetRegistry(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+		StrCtrl.AnsiStringToWideString(std::string(pName, pName + nLenName)),
+		StrCtrl.AnsiStringToWideString(std::string(pBinPath, pBinPath + nLenPath)));
+}
+
+BOOL SysCtrl_API::DeleteStartProgram(char* pName, int nLenName)
+{
+	return RegCtrl.DeleteRegistry(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
+		StrCtrl.AnsiStringToWideString(std::string(pName, pName + nLenName)));
 }
 
 
@@ -246,4 +264,28 @@ bool ServiceCtrl_API::Restart(char* serviceName)
 bool ServiceCtrl_API::Delete(char* serviceName)
 {
 	return ServiceCtrl.Stop(serviceName);
+}
+
+void DebugPrintA(const char* pModuleName, const char* pFunctionName, const int nLine, const char* format, ...)
+{
+	va_list argList;
+	va_start(argList, format);
+
+	// 버퍼 크기를 동적으로 할당
+	int bufferSize = vsnprintf(NULL, 0, format, argList) + 1;
+	char* buffer = (char*)malloc(bufferSize);
+
+	// 다시 가변 인자 목록을 초기화
+	va_end(argList);
+	va_start(argList, format);
+
+	vsnprintf(buffer, bufferSize, format, argList);
+
+	std::string message{ std::format("[{}|{}({})] ", pModuleName, pFunctionName, nLine) };
+	message.append(buffer, bufferSize);
+
+	OutputDebugStringA(message.c_str());
+
+	free(buffer);
+	va_end(argList);
 }

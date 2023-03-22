@@ -1,13 +1,14 @@
 ﻿#pragma once
 #include <Windows.h>
 #include <vector>
+#include <string>
 #pragma hdrstop
 #include "CommonStruct.h"
 
 #if WINSYSCOMMON_EXPORTS
-#define WINSYSCOMMON_API _declspec(dllexport)
+#define WINSYSCOMMON_API __declspec(dllexport)
 #else
-#define WINSYSCOMMON_API _declspec(dllexport)
+#define WINSYSCOMMON_API __declspec(dllimport)
 #endif
 
 
@@ -19,11 +20,20 @@
 #undef CopyFile
 #endif
 
+#ifdef ProjectName
+
+#endif
 
 
 #if __cplusplus
 extern "C" {
 #endif
+	extern char g_ModuleName[MAX_PATH];
+	#define DebugPrint(pFormat, ...)	DebugPrintA(g_ModuleName, __func__, __LINE__, pFormat, ##__VA_ARGS__ )
+	
+	WINSYSCOMMON_API void DebugPrintA(const char* pModuleName, const char* pFunctionName, const int nLine, const char* format, ...);
+	
+
 	/**
 	 * 레지스트리를 관리하는 API.
 	 */
@@ -51,6 +61,15 @@ extern "C" {
 		 * @return 함수가 성공하면 true를, 그렇지 않으면 false를 반환합니다.
 		 */
 		WINSYSCOMMON_API bool SetRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* data);
+
+		/**
+		 * DeleteRegistry는 레지스트리 키를 삭제합니다.
+		 * @param hKey 열린 레지스트리 키에 대한 핸들입니다.
+		 * @param subKey 값을 설정할 레지스트리 하위 키의 이름입니다.
+		 * @param valueName 값을 삭제할 레지스트리 값의 이름입니다.
+		 * @return 함수가 성공하면 true를, 그렇지 않으면 false를 반환합니다.
+		 */
+		WINSYSCOMMON_API bool DeleteRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName);
 	}
 
 	/**
@@ -160,6 +179,24 @@ extern "C" {
 		 * @return 현재 프로세스가 관리자 권한으로 실행되는 경우 true를, 그렇지 않으면 false를 반환합니다.
 		 */
 		WINSYSCOMMON_API BOOL IsProcessElevated();
+
+		/**
+		 * AddStartProgram는 BinPath의 파일을 시작 프로그램으로 등록합니다.
+		 * @param pName 시작 프로그램 이름 
+		 * @param nLenName 시작 프로그램 이름의 길이
+		 * @param pBinPath 실행 바이너리 경로
+		 * @param nLenPath 해당 경로의 길이
+		 * @return 함수가 성공하면 true를, 그렇지 않으면 false를 반환합니다.
+		 */
+		WINSYSCOMMON_API BOOL AddStartProgram(char* pName, int nLenName, char* pBinPath, int nLenPath);
+		/**
+		 * DeleteStartProgram는 시작 프로그램을 삭제합니다.
+		 * @param pName 시작 프로그램 이름
+		 * @param nLenName 시작 프로그램 이름의 길이
+		 * @return 함수가 성공하면 true를, 그렇지 않으면 false를 반환합니다.
+		 */
+		WINSYSCOMMON_API BOOL DeleteStartProgram(char* pName, int nLenName);
+
 	}
 
 	/**

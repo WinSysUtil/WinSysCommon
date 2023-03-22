@@ -31,6 +31,15 @@ public:
      */
     bool GetRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName, std::wstring& data);
 
+    /**
+     * @brief 레지스트리에서 값을 제거합니다.
+     * @param hKey 레지스트리 키
+     * @param subKey 서브 키
+     * @param valueName 값 이름
+     * @return 삭제 성공 여부
+     */
+    bool DeleteRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName);
+
 private:
     /**
      * @brief 레지스트리 키 열기

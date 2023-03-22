@@ -45,6 +45,20 @@ bool CRegCtrl::GetRegistry(HKEY hKey, const std::wstring& subKey, const std::wst
     return true;
 }
 
+bool CRegCtrl::DeleteRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName)
+{
+    HKEY resultKey;
+    if (!OpenRegistryKey(hKey, subKey, KEY_ALL_ACCESS, resultKey))
+    {
+        return false;
+    }
+
+    bool result = RegDeleteValueW(resultKey, valueName.c_str()) == ERROR_SUCCESS;
+
+    CloseRegistryKey(resultKey);
+    return result;
+}
+
 bool CRegCtrl::OpenRegistryKey(HKEY hKey, const std::wstring& subKey, REGSAM access, HKEY& resultKey)
 {
     if (RegOpenKeyExW(hKey, subKey.c_str(), 0, access, &resultKey) != ERROR_SUCCESS)
