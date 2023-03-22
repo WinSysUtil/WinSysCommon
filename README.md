@@ -20,6 +20,7 @@ Windows 운영체제에서 파일 및 시스템 정보를 관리하기 위한 AP
 
 - `GetRegistry` : 레지스트리 값을 가져옵니다.
 - `SetRegistry` : 레지스트리 값을 설정합니다.
+- `DeleteRegistry` : 레지스트리 값을 삭제합니다.
 
 ### File Control API (FileCtrl_API)
 
