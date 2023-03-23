@@ -297,6 +297,16 @@ extern "C" {
 		 */
 		WINSYSCOMMON_API int GetStringParsing(WCHAR* pString, WCHAR* pDelimiter, std::vector<std::wstring>* pVecString);
 
+		/**
+		 * @brief 랜덤 문자열을 구합니다..
+		 * 
+		 * @param pBuf 문자열이 담길 버퍼 공간입니다.
+		 * @param nLenMaxBuffer 버퍼의 최대 길이입니다.
+		 * @param length 문자열의 길이
+		 * @return bool 성공 여부
+		 *
+		 */
+		WINSYSCOMMON_API bool GetRandomString(char* pBuf, int nLenMaxBuffer, int length);
 	}
 
 	namespace ServiceCtrl_API {

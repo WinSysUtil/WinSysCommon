@@ -182,6 +182,20 @@ int StrCtrl_API::GetStringParsing(WCHAR* pString, WCHAR* pDelimiter, std::vector
 	return StrCtrl.GetStringParsing(pString, pDelimiter, pVecString);
 }
 
+bool StrCtrl_API::GetRandomString(char* pBuf, int nLenMaxBuffer, int length)
+{
+	if (length > nLenMaxBuffer > 0) return false;
+
+	std::string strRand = StrCtrl.GetRandomString(length);
+	if (strRand.length() == 0) return false;
+
+	if (0 == strcpy_s(pBuf, nLenMaxBuffer, strRand.c_str())) return true;
+	
+
+	return false;
+
+}
+
 // =============================================================================================== //
 // Process Control API
 // =============================================================================================== //

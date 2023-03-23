@@ -47,3 +47,16 @@ int CStrCtrl::GetStringParsing(WCHAR* pString, WCHAR* pDelimiter, std::vector<st
 
 	return ERROR_SUCCESS;
 }
+
+std::string CStrCtrl::GetRandomString(int length)
+{
+	std::string randomString = "";
+	srand(time(NULL)); // 랜덤 시드 초기화
+
+	for (int i = 0; i < length; i++) {
+		char randomChar = 'A' + rand() % 26; // 알파벳 대문자 랜덤 생성
+		randomString += randomChar;
+	}
+
+	return randomString;
+}
