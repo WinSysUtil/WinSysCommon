@@ -33,14 +33,6 @@ bool CRegCtrl::GetRegistry(HKEY hKey, const std::wstring& subKey, const std::wst
         return false;
     }
 
-    data.resize(dataSize / sizeof(wchar_t));
-    result = QueryValue(resultKey, valueName, data, dataSize);
-    if (!result)
-    {
-        CloseRegistryKey(resultKey);
-        return false;
-    }
-
     CloseRegistryKey(resultKey);
     return true;
 }
@@ -79,6 +71,13 @@ bool CRegCtrl::QueryValue(HKEY resultKey, const std::wstring& valueName, std::ws
     }
 
     if (type != REG_SZ)
+    {
+        return false;
+    }
+
+    data.resize(dataSize / sizeof(wchar_t));
+    result = RegQueryValueExW(resultKey, valueName.c_str(), 0, &type, reinterpret_cast<BYTE*>(&data[0]), &dataSize) == ERROR_SUCCESS;
+    if (!result)
     {
         return false;
     }
