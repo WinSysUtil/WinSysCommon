@@ -4,6 +4,7 @@
 #include <string>
 #include <Windows.h>
 #pragma hdrstop
+#include "StrCtrl.h"
 
 class CRegCtrl;
 extern CRegCtrl RegCtrl;
@@ -19,6 +20,7 @@ public:
      * @param data 설정할 데이터
      * @return 설정 성공 여부
      */
+    bool SetRegistry(HKEY hKey, const std::string& subKey, const std::string& valueName, const std::string& data);
     bool SetRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName, const std::wstring& data);
 
     /**
@@ -29,6 +31,7 @@ public:
      * @param data 가져온 데이터
      * @return 가져오기 성공 여부
      */
+    bool GetRegistry(HKEY hKey, const std::string& subKey, const std::string& valueName, std::string& data);
     bool GetRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName, std::wstring& data);
 
     /**
@@ -38,6 +41,7 @@ public:
      * @param valueName 값 이름
      * @return 삭제 성공 여부
      */
+    bool DeleteRegistry(HKEY hKey, const std::string& subKey, const std::string& valueName);
     bool DeleteRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName);
 
 private:

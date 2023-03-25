@@ -1,6 +1,14 @@
 ﻿#include "RegCtrl.h"
-
 CRegCtrl RegCtrl;
+
+bool CRegCtrl::SetRegistry(HKEY hKey, const std::string& subKey, const std::string& valueName, const std::string& data)
+{
+    return SetRegistry(hKey,
+        StrCtrl.AnsiStringToWideString(subKey),
+        StrCtrl.AnsiStringToWideString(valueName),
+        StrCtrl.AnsiStringToWideString(data)
+    );
+}
 
 bool CRegCtrl::SetRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName, const std::wstring& data)
 {
@@ -15,6 +23,19 @@ bool CRegCtrl::SetRegistry(HKEY hKey, const std::wstring& subKey, const std::wst
 
     CloseRegistryKey(resultKey);
     return result;
+}
+
+bool CRegCtrl::GetRegistry(HKEY hKey, const std::string& subKey, const std::string& valueName, std::string& data)
+{
+    std::wstring wstrTemp;
+    auto ret =  GetRegistry(hKey,
+        StrCtrl.AnsiStringToWideString(subKey),
+        StrCtrl.AnsiStringToWideString(valueName),
+        wstrTemp
+    );
+
+    data = StrCtrl.WideStringToAnsiString(wstrTemp);
+    return ret;
 }
 
 bool CRegCtrl::GetRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName, std::wstring& data)
@@ -35,6 +56,14 @@ bool CRegCtrl::GetRegistry(HKEY hKey, const std::wstring& subKey, const std::wst
 
     CloseRegistryKey(resultKey);
     return true;
+}
+
+bool CRegCtrl::DeleteRegistry(HKEY hKey, const std::string& subKey, const std::string& valueName)
+{
+    return DeleteRegistry(hKey,
+        StrCtrl.AnsiStringToWideString(subKey),
+        StrCtrl.AnsiStringToWideString(valueName)
+    );
 }
 
 bool CRegCtrl::DeleteRegistry(HKEY hKey, const std::wstring& subKey, const std::wstring& valueName)

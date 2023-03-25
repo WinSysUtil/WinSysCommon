@@ -1,4 +1,6 @@
-﻿#include "FileCtrl.h"
+﻿#include <memory>
+
+#include "FileCtrl.h"
 #include "SysCtrl.h"
 #include "ProcCtrl.h"
 #include "RegCtrl.h"
@@ -10,27 +12,52 @@
 // Registry Control API
 // =============================================================================================== //
 
-bool RegCtrl_API::GetRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* pBuf, int pBufMaxLength)
+bool RegCtrl_API::GetRegistryA(HKEY hKey, const char* subKey, const char* valueName, char* pBuf, int nLenBuf)
 {
-	std::wstring wstrData;
-	bool ret = FALSE;
-	if (true == RegCtrl.GetRegistry(hKey, subKey, valueName, wstrData))
+	std::string strData;
+	bool ret = false;
+	if (true == RegCtrl.GetRegistry(hKey, subKey, valueName, strData))
 	{
-		if (0 == wcsncpy_s(pBuf, pBufMaxLength, wstrData.c_str(), wstrData.length()))
+		if (0 == strncpy_s(pBuf, nLenBuf, strData.c_str(), strData.length()))
 		{
-			ret = TRUE;
+			ret = true;
 		}
 	}
 
 	return ret;
 }
 
-bool RegCtrl_API::SetRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName, wchar_t* data)
+bool RegCtrl_API::GetRegistryW(HKEY hKey, const wchar_t* subKey, const wchar_t* valueName, wchar_t* pBuf, int nLenBuf)
+{
+	std::wstring wstrData;
+	bool ret = false;
+	if (true == RegCtrl.GetRegistry(hKey, subKey, valueName, wstrData))
+	{
+		if (0 == wcsncpy_s(pBuf, nLenBuf, wstrData.c_str(), wstrData.length()))
+		{
+			ret = true;
+		}
+	}
+
+	return ret;
+}
+
+bool RegCtrl_API::SetRegistryA(HKEY hKey, const char * subKey, const char* valueName, const char* data)
 {
 	return RegCtrl.SetRegistry(hKey, subKey, valueName, data);
 }
 
-bool RegCtrl_API::DeleteRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName)
+bool RegCtrl_API::SetRegistryW(HKEY hKey, const wchar_t* subKey, const wchar_t* valueName, const wchar_t* data)
+{
+	return RegCtrl.SetRegistry(hKey, subKey, valueName, data);
+}
+
+bool RegCtrl_API::DeleteRegistryA(HKEY hKey, const char* subKey, const char* valueName)
+{
+	return RegCtrl.DeleteRegistry(hKey, subKey, valueName);
+}
+
+bool RegCtrl_API::DeleteRegistryW(HKEY hKey, const wchar_t* subKey, const wchar_t* valueName)
 {
 	return RegCtrl.DeleteRegistry(hKey, subKey, valueName);
 }
@@ -39,48 +66,48 @@ bool RegCtrl_API::DeleteRegistry(HKEY hKey, wchar_t* subKey, wchar_t* valueName)
 // File Control API
 // =============================================================================================== //
 
-BOOL FileCtrl_API::CreateDirectory(char* strPath)
+BOOL FileCtrl_API::CreateDirectory(const char* strPath)
 {
 	return FileCtrl.CreateDirectory(strPath);
 }
 
-BOOL FileCtrl_API::FileExist(char* strPath)
+BOOL FileCtrl_API::FileExist(const char* strPath)
 {
 	return FileCtrl.FileExists(strPath);
 }
 
-FileType FileCtrl_API::GetType(char* strPath)
+FileType FileCtrl_API::GetType(const char* strPath)
 {
 	return FileCtrl.GetType(strPath);
 }
 
-BOOL FileCtrl_API::RemoveFIle(char* strPath)
+BOOL FileCtrl_API::RemoveFIle(const char* strPath)
 {
 	return FileCtrl.RemoveFile(strPath);
 }
 
-BOOL FileCtrl_API::CopyFile(char* strSrc, char* strDst)
+BOOL FileCtrl_API::CopyFile(const char* strSrc, const char* strDst)
 {
 	return FileCtrl.CopyFile(strSrc, strDst);
 }
 
-BOOL FileCtrl_API::GetFiles(char* strSrc, std::vector<std::string>* files)
+BOOL FileCtrl_API::GetFiles(const char* strSrc, std::vector<std::string>* files)
 {
 	return FileCtrl.GetFiles(strSrc, files);
 }
 
-BOOL FileCtrl_API::FileVersion(char* pPath, int nLenPath, char* pDst, int nMaxLenDst)
+BOOL FileCtrl_API::FileVersion(const char* pPath, char* pDst, int nLenDst)
 {
 	BOOL nRet = FALSE;
 
-	std::string strPath(pPath, nLenPath);
+	std::string strPath(pPath);
 	std::string version;
 	if (FileCtrl.FileVersion(strPath, version))
 	{
-		if (0 == strncpy_s(pDst, nMaxLenDst, version.c_str(), version.length()))
+		if (0 == strncpy_s(const_cast<char*>(pDst), nLenDst, version.c_str(), version.length()))
 			nRet = TRUE;
 	}
-	
+
 
 	return nRet;
 }
@@ -89,21 +116,21 @@ BOOL FileCtrl_API::FileVersion(char* pPath, int nLenPath, char* pDst, int nMaxLe
 // System Control API
 // =============================================================================================== //
 
-BOOL SysCtrl_API::GetEnviroment(char* key, char* pBuf, int nBufSize)
+BOOL SysCtrl_API::GetEnviroment(const char* key, const char* pBuf, int nBufSize)
 {
 	BOOL ret = FALSE;
 
 	std::string value;
 	if (TRUE == SysCtrl.GetEnviroment(key, value))
 	{
-		strcpy_s(pBuf, nBufSize, value.c_str());
+		strcpy_s(const_cast<char*>(pBuf), nBufSize, value.c_str());
 	}
 
 
 	return ret;
 }
 
-BOOL SysCtrl_API::SetEnviroment(char* key, char* value)
+BOOL SysCtrl_API::SetEnviroment(const char* key, const char* value)
 {
 	BOOL ret = FALSE;
 	if (TRUE == SysCtrl.SetEnviroment(key, value))
@@ -114,13 +141,13 @@ BOOL SysCtrl_API::SetEnviroment(char* key, char* value)
 	return ret;
 }
 
-BOOL SysCtrl_API::GetSystemTimeEx(char* pBuf, int nBufSize)
+BOOL SysCtrl_API::GetSystemTimeEx(const char* pBuf, int nBufSize)
 {
 	BOOL ret = FALSE;
 	std::string strTime;
 	if (TRUE == SysCtrl.GetSystemTime(strTime))
 	{
-		strcpy_s(pBuf, nBufSize, strTime.c_str());
+		strcpy_s(const_cast<char*>(pBuf), nBufSize, strTime.c_str());
 		ret = TRUE;
 	}
 
@@ -134,14 +161,16 @@ BOOL SysCtrl_API::IsProcessElevated()
 
 }
 
-BOOL SysCtrl_API::AddStartProgram(char* pName, int nLenName, char* pBinPath, int nLenPath)
+BOOL SysCtrl_API::AddStartProgram(const char* pName, const char* pBinPath)
 {
+	const int nLenName = strlen(pName);
+	const int nLenPath = strlen(pBinPath);
 	return RegCtrl.SetRegistry(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
 		StrCtrl.AnsiStringToWideString(std::string(pName, pName + nLenName)),
 		StrCtrl.AnsiStringToWideString(std::string(pBinPath, pBinPath + nLenPath)));
 }
 
-BOOL SysCtrl_API::DeleteStartProgram(char* pName, int nLenName)
+BOOL SysCtrl_API::DeleteStartProgram(const char* pName, int nLenName)
 {
 	return RegCtrl.DeleteRegistry(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",
 		StrCtrl.AnsiStringToWideString(std::string(pName, pName + nLenName)));
@@ -152,11 +181,11 @@ BOOL SysCtrl_API::DeleteStartProgram(char* pName, int nLenName)
 // String Control API
 // =============================================================================================== //
 
-BOOL StrCtrl_API::AnsiStringToWideString(char* pSrcBuf, int nSrcBufSize, wchar_t* pDstBuf, int pDstBufMaxSize)
+BOOL StrCtrl_API::AnsiStringToWideString(const char* pSrc, wchar_t* pDst, int nLenDst)
 {
 	BOOL ret = FALSE;
-	auto wstrTemp = StrCtrl.AnsiStringToWideString(pSrcBuf);
-	if (0 == wcsncpy_s(pDstBuf, pDstBufMaxSize, wstrTemp.c_str(), wstrTemp.length()))
+	auto wstrTemp = StrCtrl.AnsiStringToWideString(pSrc);
+	if (0 == wcsncpy_s(pDst, nLenDst, wstrTemp.c_str(), wstrTemp.length()))
 	{
 		ret = TRUE;
 	}
@@ -164,12 +193,12 @@ BOOL StrCtrl_API::AnsiStringToWideString(char* pSrcBuf, int nSrcBufSize, wchar_t
 	return ret;
 }
 
-BOOL StrCtrl_API::WideStringToAnsiString(wchar_t* pSrcBuf, int nSrcBufSize, char* pDstBuf, int pDstBufMaxSize)
+BOOL StrCtrl_API::WideStringToAnsiString(const wchar_t* pSrc, char* pDst, int nLenDst)
 {
 	BOOL ret = FALSE;
-	std::wstring wstrTemp(pSrcBuf, pSrcBuf + nSrcBufSize);
+	std::wstring wstrTemp(pSrc);
 	auto strTemp = StrCtrl.WideStringToAnsiString(wstrTemp);
-	if (0 == strncpy_s(pDstBuf, pDstBufMaxSize, strTemp.c_str(), strTemp.length()))
+	if (0 == strncpy_s(pDst, nLenDst, strTemp.c_str(), strTemp.length()))
 	{
 		ret = TRUE;
 	}
@@ -177,20 +206,24 @@ BOOL StrCtrl_API::WideStringToAnsiString(wchar_t* pSrcBuf, int nSrcBufSize, char
 	return ret;
 }
 
-int StrCtrl_API::GetStringParsing(WCHAR* pString, WCHAR* pDelimiter, std::vector<std::wstring>* pVecString)
+int StrCtrl_API::GetStringParsing(const WCHAR* pString, const WCHAR* pDelimiter, std::vector<std::wstring>* pVecString)
 {
-	return StrCtrl.GetStringParsing(pString, pDelimiter, pVecString);
+	return StrCtrl.GetStringParsing(const_cast<wchar_t*>(pString), const_cast<wchar_t*>(pDelimiter), pVecString);
 }
 
-bool StrCtrl_API::GetRandomString(char* pBuf, int nLenMaxBuffer, int length)
+bool StrCtrl_API::GetRandomString(char* pBuf, int nLenBuf, int length)
 {
-	if (length > nLenMaxBuffer > 0) return false;
+	if (length >= nLenBuf) 
+		return false;
+
+	std::memset(pBuf, 0x00, sizeof(char) * nLenBuf);
 
 	std::string strRand = StrCtrl.GetRandomString(length);
-	if (strRand.length() == 0) return false;
+	if (strRand.length() == 0) 
+		return false;
 
-	if (0 == strcpy_s(pBuf, nLenMaxBuffer, strRand.c_str())) return true;
-	
+	if (0 == strcpy_s(pBuf, nLenBuf, strRand.c_str())) return true;
+
 
 	return false;
 
@@ -200,7 +233,7 @@ bool StrCtrl_API::GetRandomString(char* pBuf, int nLenMaxBuffer, int length)
 // Process Control API
 // =============================================================================================== //
 
-bool ProcCtrl_API::StartProcess(char* szPath, DWORD* pPID)
+bool ProcCtrl_API::StartProcess(const char* szPath, DWORD* pPID)
 {
 	DWORD dwPID = 0;
 	bool bRet = ProcCtrl.StartProcess(StrCtrl.AnsiStringToWideString(szPath), dwPID);
@@ -209,16 +242,16 @@ bool ProcCtrl_API::StartProcess(char* szPath, DWORD* pPID)
 	return bRet;
 }
 
-bool ProcCtrl_API::StopProcess(char* szProcessName)
+bool ProcCtrl_API::StopProcess(const char* szProcessName)
 {
 	return ProcCtrl.StopProcess(StrCtrl.AnsiStringToWideString(szProcessName));
 
 }
 
-bool ProcCtrl_API::IsProcessRunning(char* szProcessName, DWORD* dwPID)
+bool ProcCtrl_API::IsProcessRunning(const char* szProcessName, DWORD* dwPID)
 {
 	DWORD dwTemp = 0;
-	bool nRet =  ProcCtrl.IsProcessRunning(StrCtrl.AnsiStringToWideString(szProcessName), dwTemp);
+	bool nRet = ProcCtrl.IsProcessRunning(StrCtrl.AnsiStringToWideString(szProcessName), dwTemp);
 	// 프로세스가 실행중이고, 매개변수 dwPID가 존재하는 경우
 	if (true == nRet && nullptr != dwPID)
 	{
@@ -229,56 +262,56 @@ bool ProcCtrl_API::IsProcessRunning(char* szProcessName, DWORD* dwPID)
 
 }
 
-bool ProcCtrl_API::SetProcessPriority(char* szProcName, DWORD dwPriority)
+bool ProcCtrl_API::SetProcessPriority(const char* szProcName, DWORD dwPriority)
 {
 	return ProcCtrl.SetProcessPriority(StrCtrl.AnsiStringToWideString(szProcName), dwPriority);
 }
 
-bool ProcCtrl_API::MonitorProcessResources(char * szProcName, PROCESS_RESOURCE_USAGE* usage)
+bool ProcCtrl_API::MonitorProcessResources(const char* szProcName, PROCESS_RESOURCE_USAGE* usage)
 {
 	return ProcCtrl.MonitorProcessResources(StrCtrl.AnsiStringToWideString(szProcName), *usage);
 }
 
-int ProcCtrl_API::InjectDLL(char* pDllPath, int nLenDllPath, DWORD dwPID)
+int ProcCtrl_API::InjectDLL(const char* pDllPath, DWORD dwPID)
 {
-	std::wstring wstrPath(pDllPath, pDllPath + nLenDllPath);
-	return ProcCtrl.InjectDLL(wstrPath, dwPID);
+	return ProcCtrl.InjectDLL(StrCtrl.AnsiStringToWideString(pDllPath), dwPID);
 }
 
 // =============================================================================================== //
 // Service Control API
 // =============================================================================================== //
 
-bool ServiceCtrl_API::Create(char* serviceName, char* displayName, char* binPath)
+bool ServiceCtrl_API::Create(const char* serviceName, const char* displayName, const char* binPath)
 {
-	return ServiceCtrl.Create(serviceName, displayName, binPath);
+	return ServiceCtrl.Create(const_cast<char*>(serviceName), const_cast<char*>(displayName), const_cast<char*>(binPath));
 }
 
-bool ServiceCtrl_API::IsRunning(char* serviceName)
+bool ServiceCtrl_API::IsRunning(const char* serviceName)
 {
-	return ServiceCtrl.IsRunning(serviceName);
+	return ServiceCtrl.IsRunning(const_cast<char*>(serviceName));
 }
 
-bool ServiceCtrl_API::Start(char* serviceName, bool force_admin)
+bool ServiceCtrl_API::Start(const char* serviceName, bool force_admin)
 {
-	return ServiceCtrl.Start(serviceName, force_admin);
+	return ServiceCtrl.Start(const_cast<char*>(serviceName), force_admin);
 
 }
 
-bool ServiceCtrl_API::Stop(char* serviceName)
+bool ServiceCtrl_API::Stop(const char* serviceName)
 {
-	return ServiceCtrl.Stop(serviceName);
+	return ServiceCtrl.Stop(const_cast<char*>(serviceName));
 }
 
-bool ServiceCtrl_API::Restart(char* serviceName)
+bool ServiceCtrl_API::Restart(const char* serviceName)
 {
-	return ServiceCtrl.Restart(serviceName);
+	return ServiceCtrl.Restart(const_cast<char*>(serviceName));
 }
 
-bool ServiceCtrl_API::Delete(char* serviceName)
+bool ServiceCtrl_API::Delete(const char* serviceName)
 {
-	return ServiceCtrl.Stop(serviceName);
+	return ServiceCtrl.Stop(const_cast<char *>(serviceName));
 }
+
 
 void DebugPrintA(const char* pModuleName, const char* pFunctionName, const int nLine, const char* format, ...)
 {
