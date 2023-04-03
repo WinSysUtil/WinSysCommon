@@ -29,6 +29,20 @@ public:
 	 * \return - Ansi 타입 문자열
 	 */
 	std::string WideStringToAnsiString(std::wstring str);
+	/**
+	 * UTF-8로 인코딩된 문자열을 UTF-16 인코딩으로 변환해주는 함수 .
+	 * 
+	 * \param str - 변환하고자 하는 문자열
+	 * \return 
+	 */
+	std::wstring UTF8ToUTF16(const std::string& str);
+	/**
+	 * UTF-16로 인코딩된 문자열을 UTF-8 인코딩으로 변환해주는 함수 .
+	 *
+	 * \param str - 변환하고자 하는 문자열
+	 * \return
+	 */
+	std::string UTF16ToUTF8(const std::wstring& str);
 
 	/**
 	 * @brief 문자열을 구분자로 나누어 벡터에 저장합니다.

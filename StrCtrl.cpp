@@ -12,19 +12,33 @@ CStrCtrl::~CStrCtrl()
 
 std::wstring CStrCtrl::AnsiStringToWideString(std::string str)
 {
-	std::wstring result;
-
-	result.assign(str.begin(), str.end());
-
+	int size = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, nullptr, 0);
+	std::wstring result(size, 0);
+	MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, &result[0], size);
 	return result;
 }
 
 std::string CStrCtrl::WideStringToAnsiString(std::wstring str)
 {
-	std::string result;
+	int size = WideCharToMultiByte(CP_ACP, 0, str.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	std::string result(size, 0);
+	WideCharToMultiByte(CP_ACP, 0, str.c_str(), -1, &result[0], size, nullptr, nullptr);
+	return result;
+}
 
-	result.assign(str.begin(), str.end());
+std::wstring CStrCtrl::UTF8ToUTF16(const std::string& str)
+{
+	int size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+	std::wstring result(size, 0);
+	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &result[0], size);
+	return result;
+}
 
+std::string CStrCtrl::UTF16ToUTF8(const std::wstring& str)
+{
+	int size = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	std::string result(size, 0);
+	WideCharToMultiByte(CP_UTF8, 0, str.c_str(), -1, &result[0], size, nullptr, nullptr);
 	return result;
 }
 
