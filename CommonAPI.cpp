@@ -229,6 +229,24 @@ bool StrCtrl_API::GetRandomString(char* pBuf, int nLenBuf, int length)
 
 }
 
+bool StrCtrl_API::UTF8ToUTF16(const char* pSrc, wchar_t* pDst, int nLenDst)
+{
+	std::wstring wstrUTF16 = StrCtrl.UTF8ToUTF16(pSrc);
+	errno_t err = wcscpy_s(pDst, nLenDst, wstrUTF16.c_str());
+	if (err == 0)
+		return true;
+	return false;
+}
+
+bool StrCtrl_API::UTF16ToUTF8(const wchar_t * pSrc, char * pDst, int nLenDst)
+{
+	std::string strUTF8 = StrCtrl.UTF16ToUTF8(pSrc);
+	errno_t err = strcpy_s(pDst, nLenDst, strUTF8.c_str());
+	if (err == 0)
+		return true;
+	return false;
+}
+
 // =============================================================================================== //
 // Process Control API
 // =============================================================================================== //

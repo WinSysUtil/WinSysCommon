@@ -305,6 +305,26 @@ extern "C" {
 		 *
 		 */
 		WINSYSCOMMON_API bool GetRandomString(char* pBuf, int nLenBuf, int length);
+
+		/**
+		 * @brief UTF8 문자열을 UTF16 으로 변환하는 함수.
+		 * 
+		 * @param pSrc UTF16으로 변경할 UTF8 문자열
+		 * @param pDst UTF8로 저장될 공간
+		 * @param nLenDst UTF8로 저장될 공간의 크기
+		 * @return bool 성공 여부
+		 */
+		WINSYSCOMMON_API bool UTF8ToUTF16(const char* pSrc, wchar_t* pDst, int nLenDst);
+
+		/**
+		 * @brief UTF16 문자열을 UTF8 으로 변환하는 함수.
+		 *
+		 * @param pSrc UTF8으로 변경할 UTF8 문자열
+		 * @param pDst UTF16로 저장될 공간
+		 * @param nLenDst UTF16로 저장될 공간의 크기
+		 * @return bool 성공 여부
+		 */
+		WINSYSCOMMON_API bool UTF16ToUTF8(const wchar_t* pSrc, char * pDst, int nLenDst);
 	}
 
 	namespace ServiceCtrl_API {
