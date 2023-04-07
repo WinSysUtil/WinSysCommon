@@ -174,3 +174,56 @@ BOOL CFileCtrl::FileVersion(std::wstring& strPath, std::wstring& version)
 
 	return nRet;
 }
+
+BOOL CFileCtrl::Is64BitFile(std::string& strPath)
+{
+	bool is64Bit = false;
+
+	try {
+		// 파일 정보 가져오기
+		std::filesystem::path file(strPath);
+		std::filesystem::file_status status = std::filesystem::status(file);
+
+		// 파일이 regular 파일인 경우에만 처리
+		if (std::filesystem::is_regular_file(status))
+		{
+			// 파일 크기 확인
+			uintmax_t fileSize = std::filesystem::file_size(file);
+
+			// PE 파일 헤더 크기 확인
+			if (fileSize >= sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS32) &&
+				fileSize >= sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS64))
+			{
+				// PE 파일 헤더 읽기
+				std::ifstream fileStream(file, std::ios::binary);
+				IMAGE_DOS_HEADER dosHeader;
+				IMAGE_NT_HEADERS32 ntHeader32;
+				IMAGE_NT_HEADERS64 ntHeader64;
+				fileStream.read(reinterpret_cast<char*>(&dosHeader), sizeof(IMAGE_DOS_HEADER));
+				fileStream.read(reinterpret_cast<char*>(&ntHeader32), sizeof(IMAGE_NT_HEADERS32));
+				if (ntHeader32.OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC)
+				{
+					// 32-bit 파일
+					is64Bit = false;
+				}
+				else
+				{
+					fileStream.seekg(std::ios::beg);
+					fileStream.read(reinterpret_cast<char*>(&ntHeader64), sizeof(IMAGE_NT_HEADERS64));
+					if (ntHeader64.OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC)
+					{
+						// 64-bit 파일
+						is64Bit = true;
+					}
+				}
+				fileStream.close();
+			}
+		}
+	}
+	catch (const std::filesystem::filesystem_error& ex)
+	{
+	
+	}
+
+	return is64Bit;
+}

@@ -140,6 +140,14 @@ extern "C" {
 		 * @param nMaxLenDst - Dstination 버퍼의 최대 크기
 		 */
 		WINSYSCOMMON_API BOOL FileVersion(const char* pPath, char* pDst, int nLenDst);
+
+		/**
+		 * 특정 파일이 64비트 헤더를 갖고 있는지 검사하는 기능.
+		 *
+		 * \param pPath - 정보를 얻고자 하는 파일의 경로
+		 * \return
+		 */
+		WINSYSCOMMON_API BOOL Is64BitFile(const char* pPath);
 	}
 
 	/**

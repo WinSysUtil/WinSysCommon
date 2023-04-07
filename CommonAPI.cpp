@@ -112,6 +112,12 @@ BOOL FileCtrl_API::FileVersion(const char* pPath, char* pDst, int nLenDst)
 	return nRet;
 }
 
+BOOL FileCtrl_API::Is64BitFile(const char* pPath)
+{
+	std::string strPath(pPath);
+	return FileCtrl.Is64BitFile(strPath);
+}
+
 // =============================================================================================== //
 // System Control API
 // =============================================================================================== //

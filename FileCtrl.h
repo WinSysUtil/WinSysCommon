@@ -4,6 +4,7 @@
 #include <vector>
 #include <filesystem>
 #include <format>
+#include <fstream>
 #pragma comment(lib, "version.lib")
 #pragma hdrstop
 
@@ -143,5 +144,13 @@ public:
 	 */
 	BOOL FileVersion(std::wstring& strPath, std::wstring& version);
 	
+
+	/**
+	 * 특정 파일이 64비트 헤더를 갖고 있는지 검사하는 기능.
+	 * 
+	 * \param strPath - 정보를 얻고자 하는 파일의 경로
+	 * \return 
+	 */
+	BOOL Is64BitFile(std::string& strPath);
 };
 
