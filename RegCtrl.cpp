@@ -99,7 +99,7 @@ bool CRegCtrl::QueryValue(HKEY resultKey, const std::wstring& valueName, std::ws
         return false;
     }
 
-    if (type != REG_SZ)
+    if (type != REG_SZ && type != REG_EXPAND_SZ)
     {
         return false;
     }
