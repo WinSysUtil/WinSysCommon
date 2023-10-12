@@ -15,7 +15,19 @@ bool CRegCtrl::SetRegistry(HKEY hKey, const std::wstring& subKey, const std::wst
     HKEY resultKey;
     if (!OpenRegistryKey(hKey, subKey, KEY_ALL_ACCESS, resultKey))
     {
-        return false;
+        DWORD disposition; // This will store the result of the operation (KEY_CREATED_NEW_KEY or KEY_OPENED_EXISTING_KEY).
+        if (RegCreateKeyExW(hKey, subKey.c_str(), 0, nullptr, 0, KEY_ALL_ACCESS, nullptr, &resultKey, &disposition) == ERROR_SUCCESS)
+        {
+            RegCloseKey(resultKey); // 일단 핸들 닫고 다시 연다.
+
+            OpenRegistryKey(hKey, subKey, KEY_ALL_ACCESS, resultKey);
+
+        }
+        else
+        {
+            // Failed to create the key.
+            return false;
+        }
     }
 
     DWORD dataSize = static_cast<DWORD>(data.size() * sizeof(wchar_t));
